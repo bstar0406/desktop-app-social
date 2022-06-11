@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+	<title>MONOGRAPHIES</title>
+	<!-- Plugin CSS Cutom Scrollbars -->
+	<link type="text/css" href="css/OverlayScrollbars.css" rel="stylesheet"/>
+	<!-- Plugin JS Cutom Scrollbars -->
+	<script type="text/javascript" src="js/OverlayScrollbars.js"></script>
+</head>
+
+<body>
+
+<div class="app" id="app_login" style="display: none;">
+	<div class="app_login">
+		<div class="applogin_logo"></div>
+		<input type="text" class="applogin_textinput" placeholder="Email" id="applogin_email_textfield">
+		<input type="password" class="applogin_textinput" placeholder="Password" id="applogin_password_textfield">
+		<div class="applogin_enterbutton" onclick="beginLoginAuthenticationProcess();">Accedi</div>
+	</div>
+</div>
+
+
+<div class="app" id="app" >
+
+	<div class="app_body">
+		<div class="app_sidemenu">
+			<div class="sidemenu_header">
+				<div class="sidemenuheader_logo"></div>
+			</div> <!-- sidemenu_header -->
+			<div class="sidemenu_user">
+				<div class="sidemenuuser_picture" id="sidemenuuser_picture"></div>
+				<div class="sidemenuuser_name" id="sidemenuuser_name"></div>
+			</div> <!-- sidemenu_user -->
+			<div class="sidemenu_body">
+				<div class="sidemenu_item sidemenu_selecteditem" onclick="sidemenu_selectHome(this);">Home</div>
+				<div class="sidemenu_item" onclick="sidemenu_selectCollections(this);">Collections</div>
+				<div class="sidemenu_item" onclick="sidemenu_selectSources(this);">Sources</div>
+				<div class="sidemenu_item" onclick="sidemenu_selectAchievements(this);">Achievements</div>
+			</div> <!-- sidemenu_body -->
+
+
+
+
+
+			<div class="appsidemenu_zone" id="appsidemenu_home">
+			</div> <!-- appsidemenu_home -->
+			<div class="appsidemenu_zone" id="appsidemenu_collections" style="display: none;">
+			</div> <!-- appsidemenu_collections -->
+			<div class="appsidemenu_zone" id="appsidemenu_sources" style="display: none;">
+				<div id="appsidemenusources_main">
+				</div> <!-- #appsidemenusources_main -->
+				<div id="appsidemenusources_sourcedetail" style="display: none;">
+				</div> <!-- #appsidemenusources_sourcedetail -->
+				<div id="appsidemenusources_topicdetail" style="display: none;">
+				</div> <!-- #appsidemenusources_topicdetail -->
+			</div> <!-- appsidemenu_sources -->
+			<div class="appsidemenu_zone" id="appsidemenu_achievements" style="display: none;">
+			</div> <!-- appsidemenu_achievements -->
+		</div> <!-- app_sidemenu -->
+
+
+		<div class="app_workarea">
+
+
+			<div class="appworkarea_zone OverlayScrollbarsActiveHere" id="appworkarea_home">
+				<!-- se servirà avere più schermate dentro questa workarea, wrappa tutto il contenuto seguente dentro ad un div:   <div id="appworkareahome_main">  e la seconda schermata in qualcosa tipo:   <div id="appworkareahome_*second*">   -->
+				<div class="appworkareazone_header">
+					<div class="appworkareazoneheader_title">HOME</div>
+					<div class="appworkareazoneheader_toolbar">
+							<div class="appworkareazoneheadertoolbar_button">Action...</div>
+					</div> <!-- appworkareazoneheader_toolbar (HOME) -->
+				</div>
+
+
+				<p></p>
+			</div> <!-- appworkarea_zone  >  #appworkarea_home -->
+
+
+
+
+			<div class="appworkarea_zone" id="appworkarea_collections" style="display: none;">
+				<!-- se servirà avere più schermate dentro questa workarea, wrappa tutto il contenuto seguente dentro ad un div:   <div id="appworkareahome_main">  e la seconda schermata in qualcosa tipo:   <div id="appworkareahome_*second*">   -->
+				<div class="appworkareazone_header">
+					<div class="appworkareazoneheader_title">COLLECTIONS (TEMPORARY INACTIVE)</div>
+					<div class="appworkareazoneheader_toolbar">
+							<div class="appworkareazoneheadertoolbar_button">Action...</div>
+					</div> <!-- appworkareazoneheader_toolbar (COLLECTIONS) -->
+				</div>
+
+
+				<p></p>
+			</div> <!-- appworkarea_zone  >  #appworkarea_collections -->
+
+
+
+			<div class="appworkarea_zone" id="appworkarea_sources" style="display: none;">
+				<!-- se servirà avere più schermate dentro questa workarea, wrappa tutto il contenuto seguente dentro ad un div:   <div id="appworkareahome_main">  e la seconda schermata in qualcosa tipo:   <div id="appworkareahome_*second*">   -->
+				<div class="appworkareazone_header">
+					<div class="appworkareazoneheader_title">SOURCES (TEMPORARY INACTIVE)</div>
+					<div class="appworkareazoneheader_toolbar">
+							<div class="appworkareazoneheadertoolbar_button">Action...</div>
+					</div> <!-- appworkareazoneheader_toolbar (SOURCES) -->
+				</div>
+
+
+				<p></p>
+			</div> <!-- appworkarea_zone  >  #appworkarea_sources -->
+
+
+
+
+
+			<div class="appworkarea_overlay" id="appworkareaoverlay_achievements">
+
+				<div class="appworkareaoverlay_modal"  id="modal_AddAchievement" style="width: 360px; height: 430px; display: none;">
+					<div class="appworkareaoverlaymodal_header">
+						<div class="appworkareaoverlaymodalheader_title">Add Achievement</div>
+						<div class="appworkareaoverlaymodalheader_close" onclick="userInteraction_addAchievement_closeModal();"></div>
+					</div> <!-- appworkareaoverlaymodal_header -->
+					<div class="appworkareaoverlaymodal_body">
+						<div class="appworkareaoverlaymodalbody_section">
+							<div class="appworkareaoverlaymodalbody_imagechooser">
+								<input class="appworkareaoverlaymodalbodyimagechooser_selector" type="file" id="modal_addAchievement_image_input" onchange="UI_update_src_image_input(this);"/>
+								<img class="appworkareaoverlaymodalbodyimagechooser_img" id="modal_addAchievement_imgPreview" src="src/blank.gif">
+							</div> <!-- appworkareaoverlaymodalbody_imagechooser -->
+						</div> <!-- appworkareaoverlaymodalbody_section -->
+						<div class="appworkareaoverlaymodalbody_section">
+							<input class="appworkareaoverlaymodalbody_textfield" type="text" id="modal_addAchievement_name_input"/>
+						</div> <!-- appworkareaoverlaymodalbody_section -->
+						<div class="appworkareaoverlaymodalbody_section">
+							<input class="appworkareaoverlaymodalbody_textfield" type="text" id="modal_addAchievement_description_input"/>
+						</div> <!-- appworkareaoverlaymodalbody_section -->
+						<!-- DATEPICKER BUTTON -->
+					</div> <!-- appworkareaoverlaymodal_body -->
+					<div class="appworkareaoverlaymodal_footer">
+						<div class="appworkareaoverlaymodalfooter_button appworkareaoverlaymodalfooterbutton_main" onclick="userInteraction_addAchievement();">OK</div>
+						<div class="appworkareaoverlaymodalfooter_button appworkareaoverlaymodalfooterbutton_cancel" style="display: none;">Cancel</div>
+					</div> <!-- appworkareaoverlaymodal_footer -->
+				</div> <!-- appworkareaoverlay_modal > #modal_AddAchievement -->
+
+			</div> <!-- appworkarea_overlay > #appworkarea_overlay_achievements -->
+
+			<div class="appworkarea_zone OverlayScrollbarsActiveHere" id="appworkarea_achievements" style="display: none;">
+				<div id="appworkareaachievements_main">
+
+					<div class="appworkareazone_header">
+						<div class="appworkareazoneheader_title">ACHIEVEMENTS</div>
+						<div class="appworkareazoneheader_toolbar">
+							<div class="appworkareazoneheadertoolbar_button" onclick='userInteraction_addAchievement_openModal();'>Add Achievement</div>
+						</div> <!-- appworkareazoneheader_toolbar (ACHIEVEMENTS) -->
+					</div>
+
+					<div class="appworkareaAchievements_container" id="appworkareaAchievements_container">
+						<!-- TEMPLATED:
+						<div class="appworkareaAchievementsContainer_item" data-recordId="1" onclick="userInteraction_achievementSelect('${record.id_source}','${record.picture_source}','${record.name_source}');">
+							<div class="achievementItem_Identity">
+								<div class="achievementItemIdentity_Image" style="background-image: url(assets/achievement-vacuum.svg);"></div>
+								<div class="achievementItemIdentity_Name">Aggiustato Aspirapolvere</div>
+							</div>
+						</div>
+						-- END OF: TEMPLATE -->
+					</div> <!-- appworkareaAchievements_container -->
+				</div> <!-- #appworkareaachievements_main -->
+				<div id="appworkareaachievements_achievementdetail" style="display: none;">
+					<div class="achievementdetail_header" id="achievementdetail_header">
+						<div class="achievementdetailheader_backbtn" onclick='userInteraction_backToAchievements();'></div>
+						<div class="achievementdetailheader_achievementpicture" id="achievementdetailheader_achievementpicture"></div>
+						<div class="achievementdetailheader_achievementname" id="achievementdetailheader_achievementname">*NOME FONTE*</div>
+					</div> <!-- #achievementdetail_header -->
+					<div class="achievementdetail_body" id="achievementdetail_body">
+						<!-- TEMPLATED:
+							<h3>28/10/2020</h3>
+							<p>Ho sistemato questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello e questo e quello.</p>
+						-- END OF: TEMPLATE -->
+					</div> <!-- #achievementdetail_body -->
+				</div> <!-- #appworkareaachievements_achievementdetail -->
+			</div> <!-- appworkarea_zone  >  #appworkarea_achievements -->
+
+
+		</div> <!-- app_workarea -->
+	</div> <!-- app_body -->
+
+</div>
+
+
+
+
+
+<script> // 𝘼𝙥𝙥 𝙃𝙚𝙖𝙙𝙚𝙧 𝙈𝙚𝙣𝙪
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                      //
+//    █████╗ ██████╗ ██████╗   ██╗  ██╗███████╗ █████╗ ██████╗ ███████╗██████╗   ███╗   ███╗███████╗███╗  ██╗██╗   ██╗  //
+//   ██╔══██╗██╔══██╗██╔══██╗  ██║  ██║██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗  ████╗ ████║██╔════╝████╗ ██║██║   ██║  //
+//   ███████║██████╔╝██████╔╝  ███████║█████╗  ███████║██║  ██║█████╗  ██████╔╝  ██╔████╔██║█████╗  ██╔██╗██║██║   ██║  //
+//   ██╔══██║██╔═══╝ ██╔═══╝   ██╔══██║██╔══╝  ██╔══██║██║  ██║██╔══╝  ██╔══██╗  ██║╚██╔╝██║██╔══╝  ██║╚████║██║   ██║  //
+//   ██║  ██║██║     ██║       ██║  ██║███████╗██║  ██║██████╔╝███████╗██║  ██║  ██║ ╚═╝ ██║███████╗██║ ╚███║╚██████╔╝  //
+//   ╚═╝  ╚═╝╚═╝     ╚═╝       ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝  ╚═╝     ╚═╝╚══════╝╚═╝  ╚══╝ ╚═════╝   //
+//                                                                                                                      //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	var appworkarea_home                 = document.getElementById("appworkarea_home");
+	var appworkarea_collections          = document.getElementById("appworkarea_collections");
+	var appworkarea_sources              = document.getElementById("appworkarea_sources");
+	var appworkarea_achievements         = document.getElementById("appworkarea_achievements");
+	var appsidemenu_home                 = document.getElementById("appsidemenu_home");
+	var appsidemenu_collections          = document.getElementById("appsidemenu_collections");
+	var appsidemenu_sources              = document.getElementById("appsidemenu_sources");
+	var appsidemenu_achievements         = document.getElementById("appsidemenu_achievements");
+
+	function sidemenu_selectHome(target){
+		// UI ACTIONS
+		sidemenu_select(target);
+		appworkarea_home.style.display = "flex";
+		appsidemenu_home.style.display = "block";
+		// DB ACTIONS
+		// ....
+	}
+
+	function sidemenu_selectCollections(target){
+		// UI ACTIONS
+		sidemenu_select(target);
+		appworkarea_collections.style.display = "flex";
+		appsidemenu_collections.style.display = "block";
+		// DB ACTIONS
+		DB_GetCollections();
+	}
+
+	function sidemenu_selectSources(target){
+		// UI ACTIONS
+		sidemenu_select(target);
+		appworkarea_sources.style.display = "flex";
+		appsidemenu_sources.style.display = "block";
+		// DB ACTIONS
+		DB_GetSources();
+	}
+
+	function sidemenu_selectAchievements(target){
+		// UI ACTIONS
+		sidemenu_select(target);
+		appworkarea_achievements.style.display = "flex";
+		appsidemenu_achievements.style.display = "block";
+		// DB ACTIONS
+		DB_GetAchievements();
+	}
+
+	function sidemenu_select(target){
+
+		// Changing color of the header menu
+		var elements = document.querySelectorAll('.sidemenu_item');
+		Array.from(elements).forEach((element, index) => {
+			element.classList.remove("sidemenu_selecteditem");
+		});
+		target.classList.add("sidemenu_selecteditem");
+
+		// Changing Workarea Zone
+		var elements = document.querySelectorAll('.appworkarea_zone');
+		Array.from(elements).forEach((element, index) => {
+			element.style.display = "none";
+		});
+
+		// Changing Sidemenu Zone
+		var elements = document.querySelectorAll('.appsidemenu_zone');
+		Array.from(elements).forEach((element, index) => {
+			element.style.display = "none";
+		});
+
+	} // END: function sidemenu_select(target){
+
+</script>
+
+
+
+<script> // 𝙕𝙤𝙤𝙢 𝘿𝙞𝙨𝙖𝙗𝙡𝙚 (𝙀𝙡𝙚𝙘𝙩𝙧𝙤𝙣)
+	window.addEventListener('keydown', (event) => {
+		if (
+			(event.ctrlKey && ((event.shiftKey && event.key == '+') || event.key == '+')) ||
+			(event.ctrlKey && ((event.shiftKey && event.key == '-') || event.key == '-'))
+		) {
+			event.preventDefault();
+		}
+	});
+</script>
+
+
+
+<script> // 𝘾𝙪𝙨𝙩𝙤𝙢 𝙎𝙘𝙧𝙤𝙡𝙡𝙗𝙖𝙧𝙨
+	InitializeOverlayScrollbars();
+	// initializes the plugin to a single element and returns its instance
+	// https://kingsora.github.io/OverlayScrollbars/#!documentation/options
+	function InitializeOverlayScrollbars(){
+		var instance = OverlayScrollbars(document.querySelectorAll(".OverlayScrollbarsActiveHere"), {
+			       className : "os-theme-light",
+			          resize : "none",
+			 paddingAbsolute : true,
+			overflowBehavior : {
+			    x : "scroll",
+			    y : "scroll"
+			},
+			scrollbars : {
+				clickScrolling : true,
+				      autoHide : "leave"
+			}
+		});
+	}
+</script>
+
+
+
+<script> // 𝙐𝙨𝙚𝙧 𝙄𝙣𝙩𝙚𝙧𝙖𝙘𝙩𝙞𝙤𝙣𝙨
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                              //
+//  ██╗   ██╗ ██████╗███████╗██████╗                                                            //
+//  ██║   ██║██╔════╝██╔════╝██╔══██╗                                                           //
+//  ██║   ██║╚█████╗ █████╗  ██████╔╝                                                           //
+//  ██║   ██║ ╚═══██╗██╔══╝  ██╔══██╗                                                           //
+//  ╚██████╔╝██████╔╝███████╗██║  ██║                                                           //
+//   ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝                                                           //
+//                                                                                              //
+//  ██╗███╗  ██╗████████╗███████╗██████╗  █████╗  █████╗ ████████╗██╗ █████╗ ███╗  ██╗ ██████╗  //
+//  ██║████╗ ██║╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗ ██║██╔════╝  //
+//  ██║██╔██╗██║   ██║   █████╗  ██████╔╝███████║██║  ╚═╝   ██║   ██║██║  ██║██╔██╗██║╚█████╗   //
+//  ██║██║╚████║   ██║   ██╔══╝  ██╔══██╗██╔══██║██║  ██╗   ██║   ██║██║  ██║██║╚████║ ╚═══██╗  //
+//  ██║██║ ╚███║   ██║   ███████╗██║  ██║██║  ██║╚█████╔╝   ██║   ██║╚█████╔╝██║ ╚███║██████╔╝  //
+//  ╚═╝╚═╝  ╚══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚════╝    ╚═╝   ╚═╝ ╚════╝ ╚═╝  ╚══╝╚═════╝   //
+//                                                                                              //
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// LOGIN
+
+function beginLoginAuthenticationProcess(){
+	var applogin_email_textfield = document.getElementById("applogin_email_textfield").value;
+	var applogin_password_textfield = document.getElementById("applogin_password_textfield").value;
+
+	//if (applogin_email_textfield !== "" && applogin_password_textfield !== "") {
+		DB_Authenticate_User(applogin_email_textfield, applogin_password_textfield);
+	//}
+
+}
+
+// COLLECTIONS ////////////////////////////////////////////////////////     ██╗ ██╗  
+// █████████████████████████████████████████████████████████████████ //    ██╔╝ ╚██╗ 
+// █─▄▄▄─█─▄▄─█▄─▄███▄─▄███▄─▄▄─█─▄▄▄─█─▄─▄─█▄─▄█─▄▄─█▄─▀█▄─▄█─▄▄▄▄█ //   ██╔╝   ╚██╗
+// █─███▀█─██─██─██▀██─██▀██─▄█▀█─███▀███─████─██─██─██─█▄▀─██▄▄▄▄─█ //    ██╗   ██╔╝
+// ▀▄▄▄▄▄▀▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▄▄▄▀▀▄▄▄▀▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀ //     ██╗ ██╔╝ 
+///////////////////////////////////////////////////////////////////////     ╚═╝ ╚═╝  
+
+	// REMOVED EVERTHING HERE TO SIMPLYFY THE CODE ON 12 MAY 2022 (Fabio)
+
+// SOURCES //////////////////////////////////////     ██╗ ██╗  
+// ███████████████████████████████████████████ //    ██╔╝ ╚██╗ 
+// █─▄▄▄▄█─▄▄─█▄─██─▄█▄─▄▄▀█─▄▄▄─█▄─▄▄─█─▄▄▄▄█ //   ██╔╝   ╚██╗
+// █▄▄▄▄─█─██─██─██─███─▄─▄█─███▀██─▄█▀█▄▄▄▄─█ //    ██╗   ██╔╝
+// ▀▄▄▄▄▄▀▄▄▄▄▀▀▄▄▄▄▀▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀ //     ██╗ ██╔╝ 
+/////////////////////////////////////////////////     ╚═╝ ╚═╝  
+
+	// REMOVED EVERTHING HERE TO SIMPLYFY THE CODE ON 12 MAY 2022 (Fabio)
+
+// ACHIEVEMENTS ///////////////////////////////////////////////////////////////     ██╗ ██╗  
+// █████████████████████████████████████████████████████████████████████████ //    ██╔╝ ╚██╗ 
+// ██▀▄─██─▄▄▄─█─█─█▄─▄█▄─▄▄─█▄─█─▄█▄─▄▄─█▄─▀█▀─▄█▄─▄▄─█▄─▀█▄─▄█─▄─▄─█─▄▄▄▄█ //   ██╔╝   ╚██╗
+// ██─▀─██─███▀█─▄─██─███─▄█▀██▄▀▄███─▄█▀██─█▄█─███─▄█▀██─█▄▀─████─███▄▄▄▄─█ //    ██╗   ██╔╝
+// ▀▄▄▀▄▄▀▄▄▄▄▄▀▄▀▄▀▄▄▄▀▄▄▄▄▄▀▀▀▄▀▀▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀ //     ██╗ ██╔╝ 
+///////////////////////////////////////////////////////////////////////////////     ╚═╝ ╚═╝  
+
+function userInteraction_achievementSelect(idachievement,achievement_picture,achievement_name){
+	// Changing the header image and name
+	document.getElementById("achievementdetailheader_achievementpicture").style.backgroundImage = "url(assets/" + achievement_picture + ")";
+	document.getElementById("achievementdetailheader_achievementname").innerHTML = achievement_name;
+	// Changing the workarea view
+	document.getElementById("appworkareaachievements_main").style.display = "none";
+	document.getElementById("appworkareaachievements_achievementdetail").style.display = "block";
+	// Changing the sidemenu view
+	document.getElementById("appsidemenuachievements_main").style.display = "none";
+	document.getElementById("appsidemenuachievements_achievementdetail").style.display = "block";
+	// DB functions
+	DB_GetAchievementDetail(idachievement);
+}
+
+function userInteraction_backToAchievements(){
+	// Changing the workarea view
+	document.getElementById("appworkareaachievements_main").style.display = "block";
+	document.getElementById("appworkareaachievements_achievementdetail").style.display = "none";
+	// Changing the sidemenu view
+	document.getElementById("appsidemenuachievements_main").style.display = "block";
+	document.getElementById("appsidemenuachievements_achievementdetail").style.display = "none";
+	// DB functions
+	DB_GetAchievements();
+}
+// ------------------------------------------------------------------------------------
+// █▀▄▀█ █▀█ █▀▄ ▄▀█ █   ▀   ▄▀█ █▀▄ █▀▄   ▄▀█ █▀▀ █ █ █ █▀▀ █ █ █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀
+// █ ▀ █ █▄█ █▄▀ █▀█ █▄▄ ▄   █▀█ █▄▀ █▄▀   █▀█ █▄▄ █▀█ █ ██▄ ▀▄▀ ██▄ █ ▀ █ ██▄ █ ▀█  █ 
+// ------------------------------------------------------------------------------------
+
+// Accepting ENTER and ESC as keystrokes
+// Implementing the closing of the modal when the user presses outside it or the close button
+var modal_AddAchievement = document.getElementById("modal_AddAchievement");
+var modal_AddAchievement_KeyDownListener = function(event) {
+	if (event.keyCode === 13) {
+		// ENTER PRESSED
+		userInteraction_addAchievement();
+	} else if (event.keyCode === 27) {
+		// ESC PRESSED
+		userInteraction_addAchievement_closeModal();
+	}
+}
+
+function userInteraction_addAchievement_openModal(){
+	document.getElementById("appworkareaoverlay_achievements").style.visibility = "visible";
+	document.getElementById("modal_AddAchievement").style.display = "flex";
+	document.getElementById("appworkarea_achievements").classList.add("GFX_blurredObject");
+	document.getElementById("modal_addTopic_imgPreview").style.backgroundImage = "url('src/icon-null-user.svg')";
+	document.getElementById("modal_addAchievement_imgPreview").src = "src/blank.gif";
+
+	// Focus on the textfield
+    document.getElementById("modal_addAchievement_name_input").focus();
+    modal_AddAchievement.addEventListener("keydown", modal_AddAchievement_KeyDownListener, true);
+}
+
+function userInteraction_addAchievement_closeModal(){
+	document.getElementById("appworkareaoverlay_achievements").style.visibility = "hidden";
+	document.getElementById("modal_AddAchievement").style.display = "none";
+	document.getElementById("appworkarea_achievements").classList.remove("GFX_blurredObject");
+	document.getElementById("modal_addAchievement_name_input").value = "";;
+	document.getElementById("modal_addAchievement_image_input").value = "";;
+
+	document.getElementById("modal_addAchievement_imgPreview").src = "src/blank.gif"
+	document.getElementById("modal_addAchievement_description_input").value = "";;
+
+	modal_AddAchievement.removeEventListener("keydown", modal_AddAchievement_KeyDownListener, true);
+}
+
+
+
+function userInteraction_addAchievement(){
+	var nameOk = false;
+	var imageOk = false;
+
+	var name = document.getElementById("modal_addAchievement_name_input");
+	var image = document.getElementById("modal_addAchievement_image_input");
+	var description = document.getElementById("modal_addAchievement_description_input");
+	
+	var selectedName = name.value.trim();            // Dichiaro il valore esatto di nome e imamgine che l'utente seleziona
+	var selectedDescription = description.value.trim()
+	var selectedImage = image.value;                 // Dichiaro il valore esatto di nome e imamgine che l'utente seleziona
+
+	// VALIDATION OF THE NAME AND IMAGE INPUTS
+	if (selectedName == ""){
+		alert("Enter the name of the achievement: " + selectedName);
+		nameOk = false;
+		name.focus();
+	} else {
+		var strippedName = selectedName.replaceAll(/[^\w\s]|_/g, "").replaceAll(/\s+/g, " ");
+		if (selectedName !== strippedName){
+			alert("Remove unsupported characters from the name");
+			name.focus();
+		} else {
+			nameOk = true;
+			if (selectedImage == ""){
+				alert("Choose an image");
+			} else {
+				var selectedImagePath = image.files[0].path;   // I declare the exact name and image value that the user selects
+				var imageFileToBeWritten = "assets/achievement-" + selectedName.replaceAll(/[^\w\s]|_/g, "").replaceAll(/\s+/g, " ").replaceAll(" ", "-").toLowerCase() + ".jpg";
+				// I verify that the image that the user is about to write does not already exist
+				if (jetpack.exists(imageFileToBeWritten) == "file"){
+					alert("The source you are trying to create already exists as same name.\r Choose another name");
+					name.focus();
+
+					imageOk = false;
+				} else {
+					imageOk = true;
+					jetpack.copy(selectedImagePath, imageFileToBeWritten, { overwrite: true });  // I copy in the assets folder the image that the user selects from his operating system
+				}
+			}
+		}
+	}
+	if (nameOk === true && imageOk === true){
+		var filterFilePath = imageFileToBeWritten.replaceAll("assets/", "");
+		addAchievementList(sanitizeHTML(strippedName), filterFilePath, selectedName, selectedDescription);
+		
+		userInteraction_addAchievement_closeModal();
+	}
+}
+
+</script>
+
+<script>
+
+</script>
+
+<script> // 𝘿𝙖𝙩𝙖𝙗𝙖𝙨𝙚 𝙄𝙣𝙩𝙚𝙧𝙖𝙘𝙩𝙞𝙤𝙣𝙨
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                               //
+//  ██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗  ██████╗███████╗                            //   
+//  ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝                            //   
+//  ██║  ██║███████║   ██║   ███████║██████╦╝███████║╚█████╗ █████╗                              //   
+//  ██║  ██║██╔══██║   ██║   ██╔══██║██╔══██╗██╔══██║ ╚═══██╗██╔══╝                              //   
+//  ██████╔╝██║  ██║   ██║   ██║  ██║██████╦╝██║  ██║██████╔╝███████╗                            //   
+//  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝                            //   
+//                                                                                               //
+//  ██╗███╗  ██╗████████╗███████╗██████╗  █████╗  █████╗ ████████╗██╗ █████╗ ███╗  ██╗ ██████╗   //  
+//  ██║████╗ ██║╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗ ██║██╔════╝   //  
+//  ██║██╔██╗██║   ██║   █████╗  ██████╔╝███████║██║  ╚═╝   ██║   ██║██║  ██║██╔██╗██║╚█████╗    //  
+//  ██║██║╚████║   ██║   ██╔══╝  ██╔══██╗██╔══██║██║  ██╗   ██║   ██║██║  ██║██║╚████║ ╚═══██╗   //  
+//  ██║██║ ╚███║   ██║   ███████╗██║  ██║██║  ██║╚█████╔╝   ██║   ██║╚█████╔╝██║ ╚███║██████╔╝   //  
+//  ╚═╝╚═╝  ╚══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚════╝    ╚═╝   ╚═╝ ╚════╝ ╚═╝  ╚══╝╚═════╝    //  
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+var loggedUserID = 1; // // MANUALLY SETTING THE USER ID BEFORE CREATING THE LOGIN FORM |||| ZERO displays all sources no matter the user id filtering
+
+
+////////////////////////////////////////////////////////////////////
+// █▀▀ █▀█ █▄ █ █▄ █ █▀▀ █▀▀ ▀█▀ █ █▀█ █▄ █   █▀ █▀▀ ▀█▀ █ █ █▀█  //
+// █▄▄ █▄█ █ ▀█ █ ▀█ ██▄ █▄▄  █  █ █▄█ █ ▀█   ▄█ ██▄  █  █▄█ █▀▀  //
+////////////////////////////////////////////////////////////////////
+
+// const mysql = require(`mysql`);                   // name of the package
+// const connection = mysql.createConnection({       // variable that hold connection to msql database
+// 	host: "localhost",
+// 	user: "root",
+// 	password: "",
+// 	database: "monographies"
+// });
+
+
+const electron = require('electron')
+const { ipcRenderer } = electron
+
+let knexDB=null;
+let achievementDB = null;
+let usersDB = null;
+
+let users=[];
+let achievements=[];
+
+let flag_db_open = false;
+
+electron.ipcRenderer.on('menu_open', (event, dbFilePath) => {
+
+  console.log("DataBase From " + dbFilePath) 
+
+  try{
+	
+	knexDB = require("knex")({
+		client: "sqlite3",
+		connection: {
+		filename: dbFilePath
+		},
+		useNullAsDefault: true,
+	});
+
+	usersDB = knexDB('users_tbl')
+	usersDB.select(['users_tbl.*'])
+	  .then(function(rows){
+		users = rows;
+		console.log("====users===="+JSON.stringify(users));
+	})
+
+	achievementDB =  knexDB('achievements_tbl')
+	achievementDB.select(['achievements_tbl.*'])
+	  .then(function(rows){
+		achievements = rows;
+		console.log("====achievements===="+JSON.stringify(achievements));
+	})
+
+	flag_db_open = true;
+
+  } catch (error) {
+	console.log(error);
+  }
+})
+
+electron.ipcRenderer.on('menu_save', (event) => {
+  if(!flag_db_open){
+	alert("DB is not open!");
+	return ;
+  }
+
+  deleteAchievementDB()
+  achievementDataListSaveDB()
+})
+
+
+function DB_Authenticate_User(username, password){
+	try {
+		let result = knexDB('users_tbl')
+		.where('email_user',username)
+		.andWhere('password_user',password)
+		.select(['users_tbl.*']);
+		result.then(function(rows){
+			loggedUserID = rows[0].id_user;
+			localStorage.setItem("localstorage_loggeduser_id", loggedUserID);
+			DB_GetUserData(loggedUserID);
+			document.getElementById("app_login").style.display = "none";
+			document.getElementById("app").style.display = "block";
+			
+		})
+	} catch (error) {
+		console.log(error);
+	}
+	
+	
+}
+
+function DB_Authenticate_User_From_LocalStorage_ID(localstorage_loggeduser_id){
+
+	try {
+		//loggedUserID = results[0].id_user;
+		//DB_GetUserData(loggedUserID);
+		document.getElementById("app_login").style.display = "none";
+		document.getElementById("app").style.display = "block";
+		
+	} catch (error) {
+		console.log(error);
+	}
+	
+}
+
+
+
+//////////////////////////////////////////////////////////////////////
+//  █ █ █▀ █▀▀ █▀█   █▀▄ ▄▀█ ▀█▀ ▄▀█   █▀▀ █▀█ █▀█ █▀▄▀█   █▀▄ █▄▄  //
+//  █▄█ ▄█ ██▄ █▀▄   █▄▀ █▀█  █  █▀█   █▀  █▀▄ █▄█ █ ▀ █   █▄▀ █▄█  //
+//////////////////////////////////////////////////////////////////////
+
+
+	function DB_GetUserData(userId){
+
+		try {
+			let result = knexDB('users_tbl')
+			.where('id_user',userId)
+			.select(['users_tbl.*']);
+			result.then(function(results){
+				DB_InsertingUI_UserData(results);
+			})
+		} catch (error) {
+			console.log(error);
+		}
+
+	}
+	function DB_InsertingUI_UserData(results){
+		var sidemenuuser_name = document.getElementById("sidemenuuser_name");
+		var sidemenuuser_picture = document.getElementById("sidemenuuser_picture");
+
+		sidemenuuser_name.innerHTML = results[0].name_user;
+		sidemenuuser_picture.style.backgroundImage = "url(assets/" + results[0].image_user + ")";
+	}
+
+
+
+//Achievement data to DB
+
+function deleteAchievementDB(){
+	achievementDB.del()
+	  .then(function(rows){
+		  //todo
+  	  })
+}
+
+
+function achievementDataListSaveDB(){
+  let newlist = []
+  achievements.forEach(achievementItem=>{
+    var newItem = {
+      picture_achievement : achievementItem.picture_achievement,
+      name_achievement : achievementItem.name_achievement,
+		description_achievement : achievementItem.description_achievement,
+		date_achievement : achievementItem.date_achievement
+	  }
+	  newlist.push(newItem)
+	})
+	achievementDB.insert(newlist)
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+//  ▄▀█ █▀▀ █ █ █ █▀▀ █ █ █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀ █▀   █▀▀ █▀█ █▀█ █▀▄▀█   █▀▄ █▄▄  //
+//  █▀█ █▄▄ █▀█ █ ██▄ ▀▄▀ ██▄ █ ▀ █ ██▄ █ ▀█  █  ▄█   █▀  █▀▄ █▄█ █ ▀ █   █▄▀ █▄█  //
+/////////////////////////////////////////////////////////////////////////////////////
+
+function DB_GetAchievements(){
+	try {
+		//old : get data from DB in this func
+		//new : get data from DB in open menu
+		DB_Templating_Achievements(achievements);
+	} catch (error) {
+		console.log(error);
+	}
+
+}
+function DB_Templating_Achievements(results){
+	let htmlPack = "";
+	results.forEach(record=>{var template = `
+		<div class="appworkareaAchievementsContainer_item" data-recordId="${record.id_achievement}" onclick="userInteraction_achievementSelect('${record.id_achievement}','${record.picture_achievement}','${record.name_achievement}');">
+			<div class="achievementItem_Identity">
+				<div class="achievementItemIdentity_Image" style="background-image: url(assets/${record.picture_achievement});"></div>
+				<div class="achievementItemIdentity_Name">${record.name_achievement}</div>
+			</div>
+		</div>
+		`; // END OF: html template
+		htmlPack += template;
+	})
+	document.querySelector("#appworkareaAchievements_container").innerHTML = htmlPack;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  ▄▀█ █▀▀ █ █ █ █▀▀ █ █ █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀ ▄▄ █▀▄ █▀▀ ▀█▀ ▄▀█ █ █     █▀▀ █▀█ █▀█ █▀▄▀█   █▀▄ █▄▄  //
+//  █▀█ █▄▄ █▀█ █ ██▄ ▀▄▀ ██▄ █ ▀ █ ██▄ █ ▀█  █     █▄▀ ██▄  █  █▀█ █ █▄▄   █▀  █▀▄ █▄█ █ ▀ █   █▄▀ █▄█  //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function DB_GetAchievementDetail(idachievement){
+
+	try {
+	  achievementDB
+		.where('id_achievement', idachievement)
+		.select(['achievements_tbl.*']);
+	  result.then(function(results){
+		DB_Templating_AchievementDetail(results);
+	  })
+	} catch (error) {
+		console.log(error);
+	}
+
+}
+function DB_Templating_AchievementDetail(results){
+	let htmlPack = "";
+	results.forEach(record=>{var template = `
+		<h3>${record.date_achievement}</h3>
+		<p>${record.description_achievement}</p>
+		`; // END OF: html template
+		htmlPack += template;
+	})
+	document.querySelector("#achievementdetail_body").innerHTML = htmlPack;
+}
+
+
+// add achievement item to 
+function addAchievementList(tagId, imagePath, imageName, imageDesc){
+	var addId = 1;
+	// if achievements is empty list
+	if( achievements.length > 0) achievements[achievements.length-1].id_achievement + 1;
+	let newAchItem = {
+		id_achievement : addId,
+		picture_achievement : imagePath,
+		name_achievement : imageName,
+		description_achievement : imageDesc,
+		date_achievement : new Date()
+	}
+
+	achievements.push(newAchItem);
+
+	DB_Templating_Achievements(achievements);
+}
+
+
+
+
+</script>
+
+
+<style>
+
+	.sortable-ghost{
+		transition: opacity .5s ease;
+		opacity: .4;
+	}
+	.sortable-chosen{
+	}
+	.sortable-drag{
+		transition: opacity 0s ease;
+		opacity: 0;
+	}
+
+
+
+
+body{
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Trebuchet MS","Lucida Grande",sans-serif;
+	cursor: default;
+	color: white;
+}
+
+.app{
+}
+
+/* APP LOGIN*/
+
+	.app_login{
+		height: 100vh;
+		background-color: #221f2e;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+		.applogin_logo{
+			width: 200px;
+			height: 80px;
+			background-image: url(src/logo_white.png);
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+		.applogin_textinput{
+			width: 400px;
+			padding: 10px 20px;
+			font-size: 18px;
+			background-color: transparent;
+			outline: none;
+			border: none;
+			border-bottom: 2px solid #6a4fac;
+			margin-top: 30px;
+			color: white;
+		}
+		.applogin_enterbutton{
+			width: 400px;
+			padding: 10px 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 50px;
+			background-color: #6a4fac;
+			cursor: pointer;
+		}
+			.applogin_enterbutton:hover{
+				background-color: #8061cc;
+			}
+			.applogin_enterbutton:active{
+				background-color: #583aa3;
+			}
+
+
+/* APP */
+
+	.app_body{
+		height: 100vh;
+		background-color: #221f2e;
+		display: flex;
+		flex-direction: row;
+	}
+		.app_sidemenu{
+			width: 256px;
+			color: white;
+			padding: 30px;
+			padding-top: 0;
+			background-image: url(src/bg-wave-sidepanel.png);
+			background-position: top;
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-color: #2e2b3f;
+			display: flex;
+			flex-direction: column;
+		}
+			.sidemenu_header{
+				min-height: 200px;
+				margin-bottom: 60px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+				.sidemenuheader_logo{
+					width: 200px;
+					height: 80px;
+					background-image: url(src/logo_white.png);
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: center;
+				}
+			.sidemenu_user{
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+				.sidemenuuser_name{
+					font-size: 16px;
+					margin-left: 12px;
+					color: white;
+				}
+				.sidemenuuser_picture{
+					width: 46px;
+					height: 46px;
+					border-radius: 50px;
+					border: 2px solid white;
+					background-image: url(src/icon-null-user.svg);
+					background-size: cover;
+					background-position: center;
+				}
+			.sidemenu_body{
+			}
+				.sidemenu_item{
+					color: #716394;
+					cursor: pointer;
+					transition: color .1s ease;
+					user-select: none;
+					margin: 0 -30px;
+					padding: 12px 30px;
+					font-size: 18px;
+				}
+					.sidemenu_selecteditem{
+						color: #efefef;
+						background-color: #7458d55e;
+					}
+					.sidemenu_item:hover:not(.sidemenu_selecteditem){
+						color: #a099b7;
+						background-color: #b7a5f60f;
+					}
+					.sidemenu_item:active:not(.sidemenu_selecteditem){
+						background-color: #382e5a;
+					}
+
+		.app_workarea{
+			flex-grow: 1;
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
+			min-width: 0;
+		}
+			.appworkarea_zone{
+				width: inherit;
+				flex-grow: 1;
+				color: #efefef;
+				padding-top: 0;
+				position: relative;
+				min-height: 0;
+				display: flex;
+				flex-direction: column;
+			}
+				.appworkareazone_header{
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					position: sticky;
+					top: 0;
+					z-index: 3;
+					min-height: 86px;
+					padding: 0 30px;
+				}
+					.appworkareazoneheader_title{
+						font-size: 2em;
+						margin-block-start: 0.67em;
+						margin-block-end: 0.67em;
+						margin-inline-start: 0px;
+						margin-inline-end: 0px;
+						font-weight: bold;
+					}
+					.appworkareazoneheader_searchfield{
+						background-color: #2e2b3f;
+						border: none;
+						border-radius: 1000px;
+						font-size: 20px;
+						color: white;
+						padding: 12px 20px;
+						outline: none;
+						background-image: url(src/icon-search.svg);
+						background-size: 24px;
+						background-position: right 14px center;
+						background-repeat: no-repeat;
+						width: 300px;
+						transition: all .2s ease;
+					}
+						.appworkareazoneheader_searchfield:hover{
+							background-color: #484364;
+						}
+						.appworkareazoneheader_searchfield:focus{
+							color: black;
+							background-color: white;
+							width: 500px;
+						}
+						.appworkareazoneheader_searchfield:not(:placeholder-shown){
+							color: black;
+							background-color: white;
+							width: 500px;
+						}
+					.appworkareazoneheader_toolbar{
+						flex-grow: 1;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+					}
+						.appworkareazoneheadertoolbar_button{
+							padding: 8px 20px;
+							background-color: #7c5bff;
+							border-radius: 100px;
+							color: #ffffff;
+							font-size: 16px;
+							margin-left: 8px;
+							transition: all 0.1s ease;
+							user-select: none;
+						}
+							.appworkareazoneheadertoolbar_button:hover{
+								background-color: #6e4aff;
+							}
+							.appworkareazoneheadertoolbar_button:active{
+								background-color: #4d35ad;
+							}
+					.appworkareazoneheader_backbtn{
+						display: inline-block;
+						width: 22px;
+						height: 22px;
+						margin-right: 12px;
+						margin-top: 2px;
+						background-image: url(src/icon-back-white.svg);
+						background-position: center;
+						background-size: contain;
+						background-repeat: no-repeat;
+						opacity: .8;
+					}
+						.appworkareazoneheader_backbtn:hover{
+							opacity: unset;
+						}
+					.appworkareazoneheader_image{
+						background-image: url(assets/user-gabriella-mereu.jpg);
+						background-size: cover;
+						background-position: center;
+						border-radius: 100px;
+						width: 50px;
+						height: 50px;
+						border: 2px solid #dfdfdf;
+						margin-right: 12px;
+					}
+					.appworkareazoneheader_text{
+						font-size: 20px;
+						font-weight: bold;
+					}
+
+
+
+
+
+
+
+
+			.appworkarea_overlay{
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					z-index: 4;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					visibility: hidden;
+					background-color: #2900791f;
+				}
+				.appworkareaoverlay_modal{
+					/* width:  Declared directly in the html div because every modal has its own size  */
+					/* height: Declared directly in the html div because every modal has its own size  */
+					display: flex;
+					flex-direction: column;
+					position: relative;
+					top: -4%;
+					margin: 30px;
+					overflow: hidden;
+					border-radius: 8px;
+					border: 2px solid white;
+					background-color: white;
+					box-shadow: 0px 6px 13px 0px rgba(0,0,0,0.75);
+					-webkit-box-shadow: 0px 6px 13px 0px rgba(0,0,0,0.75);
+					-moz-box-shadow: 0px 6px 13px 0px rgba(0,0,0,0.75);
+
+				}
+					.appworkareaoverlaymodal_header{
+						min-height: 60px;
+						display: flex;
+						align-items: center;
+						padding: 10px;
+						justify-content: space-between;
+						margin-bottom: 8px;
+					}
+						.appworkareaoverlaymodalheader_title{
+							color: gray;
+							font-size: 20px;
+							margin-left: 6px;
+						}
+						.appworkareaoverlaymodalheader_close{
+							width: 30px;
+							height: 30px;
+							background-image: url(src/icon-close.svg);
+							background-size: 60%;
+							background-position: center;
+							background-repeat: no-repeat;
+							opacity: 0.15;
+							cursor: pointer;
+						}
+							.appworkareaoverlaymodalheader_close:hover{
+								opacity: 0.3;
+							}
+							.appworkareaoverlaymodalheader_close:active{
+								opacity: 0.35;
+							}
+					.appworkareaoverlaymodal_body{
+						flex-grow: 1;
+						padding: 0 22px;
+					}
+						.appworkareaoverlaymodalbody_section{
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							width: 100%;
+							min-height: 70px;
+						}
+							.appworkareaoverlaymodalbody_imagechooser{
+								border-radius: 100px;
+								height: 140px;
+								width: 140px;
+								position: relative;
+							}
+								.appworkareaoverlaymodalbodyimagechooser_selector{
+									width: 100%;
+									height: 100%;
+									opacity: 0;
+									cursor: pointer;
+									border-radius: 100px;
+									transform: translateY(-2px);
+									user-select: none;
+								}
+									.appworkareaoverlaymodalbodyimagechooser_selector:hover + .appworkareaoverlaymodalbodyimagechooser_img{
+										filter: brightness(1.07);
+									}
+									.appworkareaoverlaymodalbodyimagechooser_selector:active + .appworkareaoverlaymodalbodyimagechooser_img{
+										filter: brightness(0.97);
+									}
+								.appworkareaoverlaymodalbodyimagechooser_img{
+									position: absolute;
+									top: 0;
+									left: 0;
+									width: 100%;
+									height: 100%;
+									pointer-events: none;
+									object-fit: cover;
+									border-radius: 100px;
+									background-image: url(src/icon-null-user.svg);
+									background-position: center;
+									background-size: cover;
+									transition: filter .1s ease;
+									user-select: none;
+								}
+						.appworkareaoverlaymodalbody_textfield{
+							width: 80%;
+							margin-top: 24px;
+							margin-bottom: 14px;
+							padding: 8px 10px;
+							font-size: 20px;
+							text-align: center;
+							background-color: transparent;
+							border-radius: 4px;
+							border: 1px solid #c5c5c5;
+							letter-spacing: 0.3px;
+							outline-color: #03A9F4;
+						}
+						.appworkareaoverlaymodalbody_textarea{
+							width: 100%;
+							height: 310px;
+							max-height: 310px;
+							margin-bottom: 14px;
+							padding: 8px 10px;
+							font-size: 20px;
+							background-color: transparent;
+							border-radius: 4px;
+							border: 1px solid #c5c5c5;
+							letter-spacing: 0.3px;
+							outline-color: #03A9F4;
+							white-space: -moz-pre-wrap; /* Firefox */
+							white-space: -o-pre-wrap; /* Opera */
+							white-space: pre-wrap; /* Chrome */
+							word-wrap: break-word; /* IE */
+						}
+						.appworkareaoverlaymodalbody_textarea .os-scrollbar-handle{
+							background-color: #b9b9b9 !important;
+						}
+
+					.appworkareaoverlaymodal_footer{
+						min-height: 44px;
+						display: flex;
+						flex-direction: row;
+					}
+						.appworkareaoverlaymodalfooter_button{
+							flex-grow: 1;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							color: black;
+							cursor: pointer;
+							user-select: none;
+						}
+							.appworkareaoverlaymodalfooter_button:hover{
+								filter: brightness(1.07);
+							}
+							.appworkareaoverlaymodalfooter_button:active{
+								filter: brightness(0.97);
+							}
+							.appworkareaoverlaymodalfooterbutton_main{
+								background-color: #03A9F4;
+								color: white;
+							}
+							.appworkareaoverlaymodalfooterbutton_cancel{
+								background-color: lightgray;
+							}
+
+
+
+
+/* ACHIEVEMENTS PANEL > MAIN */
+				.appworkareaAchievements_container{
+					display: grid;
+					grid-gap: 20px;
+					grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+				}
+					.appworkareaAchievementsContainer_item{
+						background-color: dodgerblue;
+						padding: 20px;
+						height: 380px;
+						border-radius: 8px;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+						border: 1px solid transparent;
+					}
+						.appworkareaAchievementsContainer_item:hover{
+							border-color: #b3e6ff;
+						  filter: brightness(1.07);
+						}
+						.achievementItem_Identity{
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+						}
+							.achievementItemIdentity_Image{
+								width: 240px;
+								height: 240px;
+								background-size: 60%;
+								background-position: center;
+								background-repeat: no-repeat;
+								background-color: white;
+								border: 6px solid #3d85bf;
+								border-radius: 1000px;
+							}
+							.achievementItemIdentity_Name{
+								text-align: center;
+								color: white;
+								font-weight: bold;
+								font-size: 26px;
+								user-select: none;
+								margin-top: 24px;
+							}
+
+
+/* ACHIEVEMENT PANEL > ACHIEVEMENTDETAIL   (#appworkareaachievements_achievementdetail)   */
+
+				.achievementdetail_header{
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					position: sticky;
+					top: 0;
+					background-color: #1e1e1e;
+					z-index: 3;
+					min-height: 86px;
+				}
+					.achievementdetailheader_backbtn{
+						display: inline-block;
+						width: 22px;
+						height: 22px;
+						margin-right: 12px;
+						margin-top: 2px;
+						background-image: url(src/icon-back-white.svg);
+						background-position: center;
+						background-size: contain;
+						background-repeat: no-repeat;
+						opacity: .8;
+					}
+						.achievementdetailheader_backbtn:hover{
+							opacity: unset;
+						}
+					.achievementdetailheader_achievementpicture{
+						background-image: url(assets/user-gabriella-mereu.jpg);
+						background-size: 60%;
+						background-position: center;
+						background-repeat: no-repeat;
+						border-radius: 100px;
+						width: 64px;
+						height: 64px;
+						border: 2px solid #dfdfdf;
+						margin-right: 12px;
+						background-color: white;
+					}
+
+					.achievementdetailheader_achievementname{
+						font-size: 32px;
+						font-weight: bold;
+					}
+
+					.achievementdetail_body{
+						margin-top: -6px;
+					}
+						.achievementdetail_category{
+						}
+							.achievementdetailcategory_namediv{
+								height: 50px;
+								background-color: #1e1e1e;
+								position: sticky;
+								top: 80px;
+								z-index: 2;
+								margin-bottom: 12px;
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+								/* PER QUANDO AVRO VOGLIA DI ESEGUIRE UN EVENTO QUANDO E' STICKY: https://codepen.io/vsync/pen/bGbmqZe?editors=0110 */
+								/* PER QUANDO AVRO VOGLIA DI ESEGUIRE UN EVENTO QUANDO E' STICKY: https://developers.google.com/web/updates/2017/09/sticky-headers */
+								/* PER QUANDO AVRO VOGLIA DI ESEGUIRE UN EVENTO QUANDO E' STICKY: https://ebidel.github.io/demos/sticky-position-event.html */
+							}
+								.achievementdetailcategory_name{
+									font-size: 24px;
+									color: #aaa;
+									background: #2d2d2d;
+									padding: 0px 12px 3px 12px;
+									border-radius: 4px;
+								}
+							.achievementdetailcategory_content{
+								display: grid;
+								grid-gap: 20px;
+								grid-template-columns: repeat(auto-fill, minmax(530px, 1fr));
+							}
+								.achievementdetailcategorycontent_topic{
+								}
+									.achievementdetailcategorycontenttopic_header{
+										color: #979797;
+										margin-left: 12px;
+										margin-bottom: 6px;
+										font-size: 20px;
+									}
+									.achievementdetailcategorycontenttopic_content{
+										min-width: 20px;
+										min-height: 173px;
+										max-height: 173px;
+										border-radius: 12px;
+										margin-bottom: 12px;
+										display: flex;
+										flex-direction: row;
+										overflow: hidden;
+										border: 2px solid transparent;
+									}
+										.achievementdetailcategorycontenttopic_content:hover{
+											border-color: #b3e6ff;
+										  filter: brightness(1.07);
+										}
+										.achievementdetailcategorycontenttopic_image{
+											background-size: cover;
+											background-position: center;
+											min-width: 180px;
+										}
+										.achievementdetailcategorycontenttopic_statements{
+											flex-grow: 1;
+											display: flex;
+											flex-direction: column;
+											background-color: #2b2b2b;
+											margin-left: 1px;
+										}
+											.achievementdetailcategorycontenttopicstatements_statement{
+												color: #b7b7b7;
+												background-color: #555;
+												margin-bottom: 1px;
+												padding: 6px 20px;
+											}
+												.achievementdetailcategorycontenttopicstatements_statement:hover{
+										 			 filter: brightness(1.07);
+												}
+												.achievementdetailcategorycontenttopicstatements_statement:last-child{
+													margin-bottom: unset;
+												}
+
+
+
+
+
+				.appworkareaAchievementDetail_statement{
+					padding: 10px 20px;
+					background-color: #74ffb1;
+					border-radius: 10px;
+					color: #353535;
+					margin-bottom: 8px;
+					outline: none;
+				}
+
+
+
+
+
+
+
+
+/*1/4 di full hd*/
+@media (max-width: 768px) {
+
+}
+/*2/8 di full hd*/
+@media (max-width: 576px) {
+}
+
+
+
+</style>
+
+
+<style> /* COMMON STYLES */
+	.GFX_blurredObject{
+		-webkit-filter: blur(5px) brightness(0.8);
+		-moz-filter: blur(5px) brightness(0.8);
+		-o-filter: blur(5px) brightness(0.8);
+		-ms-filter: blur(5px) brightness(0.8);
+		filter: blur(5px) brightness(0.8);
+	}
+</style>
+
+
+
+
+
+<style> /* RESET */
+body{
+	margin: 0;
+}
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+</style>
+
+
+
+<style> /* CUSTOM CHECKBOXES (https://www.w3schools.com/howto/howto_css_custom_checkbox.asp) */
+	/* The container */
+	.container {
+	  display: block;
+	  position: relative;
+	  padding-left: 35px;
+	  margin-bottom: 12px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+
+	/* Hide the browser's default checkbox */
+	.container input {
+	  position: absolute;
+	  opacity: 0;
+	  cursor: pointer;
+	  height: 0;
+	  width: 0;
+	}
+
+	/* Create a custom checkbox */
+	.checkmark {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  height: 22px;
+	  width: 22px;
+	  background-color: #eee;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.container:hover input ~ .checkmark {
+	  background-color: #ccc;
+	}
+
+	/* When the checkbox is checked, add a blue background */
+	.container input:checked ~ .checkmark {
+	  background-color: #2196F3;
+	}
+
+	/* Create the checkmark/indicator (hidden when not checked) */
+	.checkmark:after {
+	  content: "";
+	  position: absolute;
+	  display: none;
+	}
+
+	/* Show the checkmark when checked */
+	.container input:checked ~ .checkmark:after {
+	  display: block;
+	}
+
+	/* Style the checkmark/indicator */
+	.container .checkmark:after {
+	  left: 9px;
+	  top: 5px;
+	  width: 5px;
+	  height: 10px;
+	  border: solid white;
+	  border-width: 0 2px 2px 0;
+	  -webkit-transform: rotate(45deg);
+	  -ms-transform: rotate(45deg);
+	  transform: rotate(45deg);
+	}
+</style>
+
+<script> // https://www.npmjs.com/package/fs-jetpack
+	const jetpack = require('fs-jetpack'); // INITIALIZATION
+</script>
+
+<script> // https://stackoverflow.com/questions/11944932/how-to-download-a-file-with-node-js-without-using-third-party-libraries
+
+// ESEMPIO PER ESEGUIRE IL DOWNLOAD E LA SCRITTURA DEL FILE SPONGEBOB.JPG
+
+		// const http = require('https'); // or 'https' for https:// URLs
+		// const fs = require('fs');
+//
+		// const file = fs.createWriteStream("assets/user-sponge-bob.jpg");
+		// const request = http.get("https://www.lovebscott.com/wp-content/uploads/2020/06/Screen-Shot-2020-06-13-at-8.53.27-PM.png", function(response) {
+		//   response.pipe(file);
+		// });
+
+</script>
+
+
+
+<script> // MODAL > IMAGE SELECTOR
+
+
+function UI_update_src_image_input(target){
+	// console.log("Eseguo funzione UI_update_src_image_input.");
+	if (target.files && target.files[0]) {
+			// console.log("check immagine superato.");
+			var img = target.parentNode.querySelector('img');
+			img.src = URL.createObjectURL(target.files[0]);
+			console.log("==--====="+ JSON.stringify(target.files[0]))
+			console.log("Image '"+ img.src + "' is selected.")
+			img.onload = imageIsLoaded;
+	}
+}
+
+function imageIsLoaded() { 
+	// console.log(this.src);
+	// FV Con il seguente IF, all'atto della selezione di una immagine, individuo la modal che attualmente è visibile e imposto il focus sul relativo textfield
+	if(document.getElementById("appworkareaoverlay_sources").style.visibility == "visible"){
+		document.getElementById("modal_addSource_name_input").focus();
+	}
+}
+</script>
+
+
+<script> // SANITIZE HTML
+/**
+ * Sanitize and encode all HTML in a user-submitted string
+ * https://portswigger.net/web-security/cross-site-scripting/preventing
+ * @param  {String} str  The user-submitted string
+ * @return {String} str  The sanitized string
+ */
+
+var sanitizeHTML = function (str) {
+	return str.replaceAll(/[^\w. ]/gi, function (c) {
+		return '&#' + c.charCodeAt(0) + ';';
+	});
+};
+
+</script>
+
+<script> // HTML STRINGFIX // FV Funzione incompleta e inutilizzata per togliere l'apostrofo da dentro i risultati mysql così: ${stringFIX(record.name_argument)}
+function stringFIX(str){
+	//alert("sistemo stringa: " + str);
+	return str.replaceAll("&#39;", "@");
+}
+
+
+</script>
+
+
+
+<script> // INIT AND AUTOLOGIN
+
+	var localstorage_loggeduser_id = localStorage.getItem("localstorage_loggeduser_id");
+	//alert(localstorage_loggeduser_id);
+
+	if (localstorage_loggeduser_id !== null) {
+		//alert("miautologgo");
+		DB_Authenticate_User_From_LocalStorage_ID(localstorage_loggeduser_id);
+	}
+
+	sessionStorage.setItem("category_id_of_the_open_modal", undefined);
+	sessionStorage.setItem("sessionstorage_idsource", undefined);
+	sessionStorage.setItem("sessionstorage_idtopic", undefined);
+	
+</script>
+
+
+</body>
+</html>
+
+

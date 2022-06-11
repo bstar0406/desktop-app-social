@@ -1,0 +1,45 @@
+{
+  "name": "ttn-app",
+  "productName": "Monographies",
+  "version": "0.1.0",
+  "author": "Fabio",
+  "description": "Monographies Desktop",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-installer": "electron-builder"
+  },
+  "build": {
+    "appId": "ttn-app",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/icon.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "src/icon.ico",
+      "uninstallerIcon": "src/icon2.ico",
+      "uninstallDisplayName": "Test Monitor",
+      "license": "license.txt",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "electron-builder": "^22.9.1",
+    "electron": "^11.2.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "electron-packager": "^15.2.0",
+    "fs-jetpack": "^4.1.0",
+    "knex": "^2.0.0",
+    "mysql": "^2.18.1",
+    "overlayscrollbars": "^1.13.1",
+    "sqlite3": "^5.0.8"
+  }
+}
